@@ -1,8 +1,27 @@
 import { mailOptions, transporter } from '../../config/nodemailer';
+import nodemailer from 'nodemailer';
 import { FormData } from '../../models/types';
 export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     const formData: FormData = req.body;
+
+const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+      }
+    })
+    
+ const mailOptions = {
+      from: process.env.EMAIL,
+      to: process.env.EMAIL,
+      subject: 'Brief for developers',
+    
+    }
 
     const markup = `
     <table>
