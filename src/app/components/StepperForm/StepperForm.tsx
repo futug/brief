@@ -20,17 +20,17 @@ const steps = [
   'О дизайне',
 ];
 
-export default function HorizontalLinearAlternativeLabelStepper({setPending}: any) {
+export default function HorizontalLinearAlternativeLabelStepper({ setPending, setSuccess }: any) {
   const { control, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const stepsComps = [{
-    id: 1, component: <FirstStep control={control}/>
+    id: 1, component: <FirstStep control={control} />
   }, {
-    id: 2, component: <SecondStep control={control}/>
+    id: 2, component: <SecondStep control={control} />
   }, {
-    id: 3, component: <ThirdStep control={control}/>
+    id: 3, component: <ThirdStep control={control} />
   }];
   const isStepOptional = (step: number) => {
     return null;
@@ -44,13 +44,13 @@ export default function HorizontalLinearAlternativeLabelStepper({setPending}: an
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data), 
-
+        body: JSON.stringify(data),
       });
-  
+
       const resData = await response.json();
-      console.log('Data received from API:', resData);
       setPending(false);
+      setSuccess(true);
+      reset();
     } catch (error) {
       console.error('Error sending form data:', error);
       setPending(false);
@@ -96,8 +96,6 @@ export default function HorizontalLinearAlternativeLabelStepper({setPending}: an
     setActiveStep(0);
   };
 
- 
-  
   return (
     <Box sx={{ width: '100%', marginTop: '1rem' }} component={'form'}>
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -124,8 +122,7 @@ export default function HorizontalLinearAlternativeLabelStepper({setPending}: an
       {activeStep === steps.length ? (
         <React.Fragment>
           <Gratitude />
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, justifyContent: 'center'}}>
-            {/* <Box sx={{ flex: '1 1 auto' }} /> */}
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, justifyContent: 'center' }}>
             <Button onClick={handleReset} sx={{ color: 'black' }}>Еще раз</Button>
           </Box>
         </React.Fragment>
@@ -136,7 +133,6 @@ export default function HorizontalLinearAlternativeLabelStepper({setPending}: an
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, maxWidth: '1400px', margin: '2rem auto' }}>
             <Button
-
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1, color: 'black' }}

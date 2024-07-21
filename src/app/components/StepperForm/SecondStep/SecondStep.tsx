@@ -27,7 +27,7 @@ const SecondStep = ({ control }: any) => {
           <TextField
             {...field}
             id="outlined-multiline-flexible"
-            label="Приемущества"
+            label="Преимущества"
             fullWidth
             placeholder='Конкурентные преимущества 5-7
             по каждому продукту или услуге
